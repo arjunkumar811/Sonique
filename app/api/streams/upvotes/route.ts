@@ -63,3 +63,16 @@ export async function POST(req: NextRequest) {
         });
     }
 }
+
+
+export async function GET(req: NextRequest) {
+    const creatorId = req.nextUrl.searchParams.get("creatorId");
+    const stream = await prismaClient.stream.findMany({
+        where: {
+            userId: creatorId ?? ""
+        }
+    })
+    return NextResponse.json({
+        stream
+    })
+}

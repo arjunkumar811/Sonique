@@ -2,10 +2,10 @@ import { prismaClient } from "@/app/lib/dbConnect";
 import { getServerSession } from "next-auth";
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
-import { Logger } from "@/app/lib/logger"; // Assuming you have a logger utility
+import { Logger } from "@/app/lib/logger"; 
 
 const UpvoteSchema = z.object({
-    streamId: z.string().uuid(), // Assuming streamId is a UUID
+    streamId: z.string().uuid(), 
 });
 
 const ERROR_MESSAGES = {
@@ -43,10 +43,12 @@ export async function POST(req: NextRequest) {
 
     try {
         const data = UpvoteSchema.parse(await req.json());
-        await prismaClient.upvotes.create({
-            data: {
-                userId: user.id,
-                streamId: data.streamId,
+        await prismaClient.upvotes.delete({
+            where: {
+                userId_streamId: {
+                    userId: user.id,
+                    streamId: data.streamId,
+                },
             },
         });
         return NextResponse.json({
