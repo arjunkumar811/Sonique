@@ -22,7 +22,7 @@ const CreateStreamSchema = z.object({
 });
 
 const YOUTUBE_API_KEY = process.env.YOUTUBE_API_KEY; 
-console.log(YOUTUBE_API_KEY); 
+ 
 
 export async function POST(req: NextRequest) {
   try {
