@@ -4,7 +4,7 @@ import { useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { ThumbsUp, ThumbsDown, Plus, Music } from "lucide-react"
+import { ThumbsUp, ThumbsDown, Plus, Music, Share2 } from "lucide-react"
 
 interface Song {
   id: number
@@ -39,6 +39,22 @@ export default function Dashboard() {
 
   const dislikeSong = (id: number) => {
     setSongs(songs.map((song) => (song.id === id ? { ...song, dislikes: song.dislikes + 1 } : song)))
+  }
+
+  const sharePage = async () => {
+    if (navigator.share) {
+      try {
+        await navigator.share({
+          title: 'Check out this awesome song dashboard!',
+          url: window.location.href,
+        });
+        console.log('Share was successful.');
+      } catch (error) {
+        console.error('Error sharing:', error);
+      }
+    } else {
+      alert('Sharing is not supported in this browser.');
+    }
   }
 
   return (
@@ -111,8 +127,10 @@ export default function Dashboard() {
             </ul>
           </CardContent>
         </Card>
+        <Button onClick={sharePage} className="mt-4 bg-blue-500 hover:bg-blue-600 text-white">
+          <Share2 className="mr-2 h-4 w-4" /> Share This Page
+        </Button>
       </div>
     </div>
   )
 }
-

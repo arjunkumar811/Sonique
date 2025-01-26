@@ -54,16 +54,24 @@ export async function POST(req: NextRequest) {
         }, {
             status: 201,
         });
-    } catch (e: any) {
-        Logger.error("Error while upvoting: " + e.message);
-        return NextResponse.json({
-            message: ERROR_MESSAGES.UPVOTE_ERROR,
-        }, {
-            status: 400,
-        });
+    } catch (e: unknown) {
+        if (e instanceof z.ZodError) {
+            Logger.error("Validation error while upvoting: " + e.errors);
+            return NextResponse.json({
+                message: ERROR_MESSAGES.INVALID_INPUT,
+            }, {
+                status: 400,
+            });
+        } else {
+            Logger.error("Error while upvoting: " + (e as Error).message);
+            return NextResponse.json({
+                message: ERROR_MESSAGES.UPVOTE_ERROR,
+            }, {
+                status: 400,
+            });
+        }
     }
 }
-
 
 export async function GET(req: NextRequest) {
     const creatorId = req.nextUrl.searchParams.get("creatorId");
@@ -71,8 +79,8 @@ export async function GET(req: NextRequest) {
         where: {
             userId: creatorId ?? ""
         }
-    })
+    });
     return NextResponse.json({
         stream
-    })
+    });
 }
