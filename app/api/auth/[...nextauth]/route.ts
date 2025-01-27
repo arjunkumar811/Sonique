@@ -26,9 +26,14 @@ const handler = NextAuth({
           }
         });
       } catch (e) {
-        console.error("Error creating user:", e); // i can leave it aswell 
+        console.error("Error creating user:", e);
       }
       return true;
+    },
+
+    async redirect({ baseUrl }) {
+      // Redirect to the dashboard after sign-in
+      return baseUrl + "/dashboard";
     }
   }
 });
