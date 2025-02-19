@@ -16,12 +16,12 @@ export function Appbar() {
   };
 
   return (
-    <div className="flex justify-between items-center p-4 bg-gray-800">
+    <div className="flex justify-between items-center p-4  rounded-lg">
       {isLoading ? (
-        <span className="text-white">Loading...</span>
+        <span className="text-gray-300 animate-pulse">Loading...</span>
       ) : session?.user ? (
         <button
-          className="bg-red-600 text-white px-4 py-2 rounded"
+          className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg transition duration-300 shadow"
           onClick={handleSignOut}
           aria-label="Log out"
         >
@@ -29,7 +29,7 @@ export function Appbar() {
         </button>
       ) : (
         <button
-          className="bg-blue-600 text-white px-4 py-2 rounded"
+          className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg transition duration-300 shadow"
           onClick={handleSignIn}
           aria-label="Sign in"
         >
